@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0436D1F529FE96CF00BB2795 /* LangSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436D1F429FE96CF00BB2795 /* LangSwitcher.swift */; };
+		04E68D9529B0BE4100B4E1BD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E68D9429B0BE4000B4E1BD /* Carbon.framework */; };
 		120A90E7267BDE3500A3A52B /* ELWindowListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120A90E6267BDE3500A3A52B /* ELWindowListManager.swift */; };
 		126676292822A47E00371910 /* AXUIWindowWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 126676282822A47E00371910 /* AXUIWindowWrapper.swift */; };
 		12B94BBC267A4ECC00E604A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B94BBB267A4ECC00E604A8 /* AppDelegate.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0436D1F429FE96CF00BB2795 /* LangSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LangSwitcher.swift; sourceTree = "<group>"; };
+		04E68D9429B0BE4000B4E1BD /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		120A90E6267BDE3500A3A52B /* ELWindowListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ELWindowListManager.swift; sourceTree = "<group>"; };
 		126676282822A47E00371910 /* AXUIWindowWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXUIWindowWrapper.swift; sourceTree = "<group>"; };
 		12B94BB8267A4ECC00E604A8 /* WindowsStyleManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WindowsStyleManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,17 +42,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04E68D9529B0BE4100B4E1BD /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04E68D9329B0BE4000B4E1BD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04E68D9429B0BE4000B4E1BD /* Carbon.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		12B94BAF267A4ECC00E604A8 = {
 			isa = PBXGroup;
 			children = (
 				12B94BBA267A4ECC00E604A8 /* WindowsStyleManager */,
 				12B94BB9267A4ECC00E604A8 /* Products */,
+				04E68D9329B0BE4000B4E1BD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +80,7 @@
 				12B94BBB267A4ECC00E604A8 /* AppDelegate.swift */,
 				120A90E6267BDE3500A3A52B /* ELWindowListManager.swift */,
 				12B94BBD267A4ECC00E604A8 /* ViewController.swift */,
+				0436D1F429FE96CF00BB2795 /* LangSwitcher.swift */,
 				126676282822A47E00371910 /* AXUIWindowWrapper.swift */,
 				12DDEDF9268116C400DC8274 /* TabBarTableViewCell.swift */,
 				12DDEDF626810EC800DC8274 /* AXValueGetters.swift */,
@@ -109,6 +124,7 @@
 				TargetAttributes = {
 					12B94BB7267A4ECC00E604A8 = {
 						CreatedOnToolsVersion = 12.3;
+						LastSwiftMigration = 1420;
 					};
 				};
 			};
@@ -147,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0436D1F529FE96CF00BB2795 /* LangSwitcher.swift in Sources */,
 				12B94BC1267A4ECC00E604A8 /* WindowsStyleManager.xcdatamodeld in Sources */,
 				12DDEDF726810EC800DC8274 /* AXValueGetters.swift in Sources */,
 				126676292822A47E00371910 /* AXUIWindowWrapper.swift in Sources */,
@@ -291,19 +308,25 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WindowsStyleManager/WindowsStyleManager.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = B8QMGNX782;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = WindowsStyleManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = abc.WindowsStyleManager;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = abc.WindowsStyleManager1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "WindowsStyleManager/objectiveC/WindowsStyleManager-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -313,19 +336,24 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WindowsStyleManager/WindowsStyleManager.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = B8QMGNX782;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = WindowsStyleManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = abc.WindowsStyleManager;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = abc.WindowsStyleManager1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "WindowsStyleManager/objectiveC/WindowsStyleManager-Bridging-Header.h";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

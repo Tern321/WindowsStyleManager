@@ -9,6 +9,7 @@ import Cocoa
 import CoreFoundation
 
 class ELWindow {
+    var window: AXUIElement!
     var appName: String!
     var windowTitle: String!
     var icon: NSImage?
@@ -56,6 +57,7 @@ class ELWindowListManager: NSObject {
         var applicationToSkipUI = [String]()
         applicationToSkipUI.append("WindowsStyleManager")
         applicationToSkipUI.append("uBar")
+//        print(windowListInfo)
         for systemWindowData in windowListInfo {
             let appName = systemWindowData["kCGWindowOwnerName"] as? String ?? ""
             if !processedApplications.contains(appName) {
@@ -179,6 +181,7 @@ class ELWindowListManager: NSObject {
             if let appWrapper = self.currentApplicationsWithWindows[appName] {
                 for AXUIwindow in appWrapper.windows {
                     let window = ELWindow()
+                    window.window = AXUIwindow
                     window.windowTitle = self.copyAXUIElementValue(element: AXUIwindow, key: "AXTitle") ?? "no data"
                     window.appName = appName
                     window.icon = appWrapper.icon

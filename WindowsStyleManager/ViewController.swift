@@ -17,9 +17,9 @@ class ELTabBarTable: NSTableView {
         let localLocation = self.convert(event.locationInWindow, to: nil)
         let clickedRow = self.row(at: localLocation)
         let clickedColumn = self.column(at: localLocation)
-
+        
         super.mouseDown(with: event)
-
+        
         guard clickedRow >= 0, clickedColumn >= 0, let delegate = self.delegate as? NSTableViewClickableDelegate else {
             return
         }
@@ -39,18 +39,39 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBOutlet var tableView: NSTableView!
     
     @IBOutlet weak var window: NSWindow!
-    @IBOutlet var textLabel : NSTextField!
     
     var openedWindows: [ELWindow] = []
     var openedApplications: [ELWindow] = []
     
-    let defaultTaskBarWidth: CGFloat = 140
+    let defaultTaskBarWidth: CGFloat = 100
+    
+    var hideAllWindows = false
+                    
+    func startCapsLockListener() {
+        NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { event in
+//            print(event.keyCode)
+// control: 62 // - change in settings avoid collisions
+            if event.keyCode == 62 && event.modifierFlags.rawValue == 256 {
+                print("changeLang")
+                LangSwitcher.selectNextLang()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        startCapsLockListener()
         
-        NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseUp]) { event in
-            if self.hideAllLocationMatch(mouseLocation: event.locationInWindow) {
+        NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseUp, .leftMouseDown]) { event in
+            if event.type == .leftMouseDown {
+                if self.hideAllLocationMatch(mouseLocation: event.locationInWindow) {
+                    self.hideAllWindows = true
+                } else {
+                    self.hideAllWindows = false
+                }
+            }
+            
+            if self.hideAllLocationMatch(mouseLocation: event.locationInWindow) && event.type == .leftMouseUp && self.hideAllWindows{
                 ELWindowListManager.hideAll()
             }
         }
@@ -59,10 +80,17 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         
         ViewController.fixWindowSize(forWidth: self.view.window?.frame.width ?? self.defaultTaskBarWidth)
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            ELWindowListManager.updateCurrentWindows()
-            ViewController.fixWindowSize(forWidth: self.view.window?.frame.width ?? self.defaultTaskBarWidth)
-            self.openedWindows = ELWindowListManager.openedWindows()
-            self.tableView.reloadData()
+            if self.view.window?.occlusionState.contains(.visible) ?? false {
+                print("visible")
+                ELWindowListManager.updateCurrentWindows()
+                ViewController.fixWindowSize(forWidth: self.view.window?.frame.width ?? self.defaultTaskBarWidth)
+                self.openedWindows = ELWindowListManager.openedWindows()
+                self.tableView.reloadData()
+                print(self.openedWindows)
+            } else {
+                print("not visible")
+            }
+            
         }
     }
     
@@ -73,7 +101,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
     
     func hideAllLocationMatch(mouseLocation: NSPoint) -> Bool {
-        return mouseLocation.x > ELScreenWrapper.width() - ELWindowListManager.toolbarHeight && mouseLocation.y < ELWindowListManager.toolbarHeight
+        return mouseLocation.x > ELScreenWrapper.width() - 10 && mouseLocation.y < 10
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
